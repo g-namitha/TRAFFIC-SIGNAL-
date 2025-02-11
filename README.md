@@ -26,3 +26,68 @@ Green for 5 seconds (cars can go),
 Yellow for 2 seconds (prepare to stop),
 Red for 5 seconds (cars must stop).
 <img width="682" alt="image" src="https://github.com/user-attachments/assets/4eb00e9c-0df7-4dea-aa7a-117fabcf9863" />
+code 
+ const int redLedPin = 2;
+const int yellowLedPin = 3;
+const int greenLedPin = 6;
+const int buttonPin = 12;
+
+
+const int greenLightDuration = 5000;  
+const int yellowLightDuration = 3000; 
+const int redLightDuration = 5000;    
+
+void setup() {
+  pinMode(redLedPin, OUTPUT);
+  pinMode(yellowLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+ 
+  if (digitalRead(buttonPin) == HIGH) {
+    handlePedestrianCrossing();
+  } else {
+    runTrafficLightCycle();
+  }
+}
+
+void runTrafficLightCycle() {
+   
+  digitalWrite(greenLedPin, HIGH);
+  digitalWrite(yellowLedPin, LOW);
+  digitalWrite(redLedPin, LOW);
+  delay(greenLightDuration);
+  if (digitalRead(buttonPin) == HIGH) {
+    handlePedestrianCrossing();
+  }
+
+   
+  digitalWrite(greenLedPin, LOW);
+  digitalWrite(yellowLedPin, HIGH);
+  digitalWrite(redLedPin, LOW);
+  delay(yellowLightDuration);
+  if (digitalRead(buttonPin) == HIGH) {
+    handlePedestrianCrossing();
+  }
+
+   
+  digitalWrite(greenLedPin, LOW);
+  digitalWrite(yellowLedPin, LOW);
+  digitalWrite(redLedPin, HIGH);
+  delay(redLightDuration);
+  if (digitalRead(buttonPin) == HIGH) {
+    handlePedestrianCrossing();
+  }
+}
+
+void handlePedestrianCrossing() {
+   
+  digitalWrite(greenLedPin, LOW);
+  digitalWrite(yellowLedPin, LOW);
+  digitalWrite(redLedPin, HIGH);
+
+  delay(redLightDuration); 
+}
