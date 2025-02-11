@@ -1,30 +1,5 @@
 # TRAFFIC-SIGNAL-  
-# Components and Connections
-Components:
-Arduino Uno
-3 LEDs (Red, Yellow, Green)
-3 Resistors (220Ω for LEDs)
-Push button (for pedestrian crossing)
-1 Resistor (10kΩ for the button pull-down)
-Breadboard and Wires
-Circuit:
-LEDs:
 
-Green LED: Connect the anode (long leg) of the Green LED to a digital pin on the Arduino (e.g., pin 2), and the cathode (short leg) to a 220Ω resistor. The other side of the resistor goes to GND.
-Yellow LED: Connect the anode (long leg) of the Yellow LED to a digital pin on the Arduino (e.g., pin 3), and the cathode (short leg) to a 220Ω resistor. The other side of the resistor goes to GND.
-Red LED: Connect the anode (long leg) of the Red LED to a digital pin on the Arduino (e.g., pin 4), and the cathode (short leg) to a 220Ω resistor. The other side of the resistor goes to GND.
-Push Button (Pedestrian Crossing):
-
-One leg of the button connects to 5V on the Arduino.
-The other leg connects to a digital input pin on the Arduino (e.g., pin 5).
-A 10kΩ pull-down resistor is placed between the button's leg connected to the input pin and GND. This ensures that when the button is not pressed, the pin reads LOW.
-
-# How it Works:
-When the button is pressed, the red light turns on immediately for 5 seconds, allowing pedestrians to cross. After 5 seconds, it returns to the normal cycle.
-When the button is not pressed, the LEDs cycle through the normal traffic light sequence:
-Green for 5 seconds (cars can go),
-Yellow for 2 seconds (prepare to stop),
-Red for 5 seconds (cars must stop).
 <img width="682" alt="image" src="https://github.com/user-attachments/assets/4eb00e9c-0df7-4dea-aa7a-117fabcf9863" />
 code 
  const int redLedPin = 2;
@@ -84,10 +59,43 @@ void runTrafficLightCycle() {
 }
 
 void handlePedestrianCrossing() {
-   
   digitalWrite(greenLedPin, LOW);
   digitalWrite(yellowLedPin, LOW);
   digitalWrite(redLedPin, HIGH);
 
   delay(redLightDuration); 
 }
+
+#documentation
+This program implements a basic traffic light system for controlling vehicle and pedestrian movement. It uses three LEDs to represent the traffic lights (Red, Yellow, and Green) and a button to trigger pedestrian crossing. When the pedestrian button is pressed, the traffic lights switch to a red light for a predefined duration, allowing pedestrians to cross safely.
+
+. Pin Configuration
+redLedPin (Pin 2) – Controls the red traffic light.
+yellowLedPin (Pin 3) – Controls the yellow traffic light.
+greenLedPin (Pin 6) – Controls the green traffic light.
+buttonPin (Pin 12) – Reads the input from the pedestrian crossing button.
+. Constants
+greenLightDuration (5000) – The duration for the green light (5 seconds).
+yellowLightDuration (3000) – The duration for the yellow light (3 seconds).
+redLightDuration (5000) – The duration for the red light (5 seconds).
+. The setup() function runs once when the program starts. It initializes the pin modes for the LEDs and button
+redLedPin, yellowLedPin, greenLedPin: Set to OUTPUT to control the traffic light LEDs.
+buttonPin: Set to INPUT_PULLUP to detect when the pedestrian button is pressed
+. The loop() function continuously checks if the pedestrian button is pressed. It calls either the handlePedestrianCrossing() or runTrafficLightCycle() functions based on the button state.
+. runTrafficLightCycle()
+This function controls the traffic light cycle, which involves turning the LEDs on and off in sequence. The cycle goes through three stages: green light, yellow light, and red light. After each stage, the button state is checked to see if the pedestrian crossing mode should be triggered.
+The green light is turned on for the duration defined by greenLightDuration, while the other lights are turned off.
+The yellow light is turned on for yellowLightDuration, while the other lights are turned off.
+The red light is turned on for redLightDuration, while the other lights are turned off.
+After each light phase, the code checks if the pedestrian button has been pressed. If pressed, it triggers the handlePedestrianCrossing() function.
+. handlePedestrianCrossing()
+This function is called when the pedestrian button is pressed. It turns off the green and yellow lights, turns on the red light, and keeps it on for a predefined duration (same as the normal red light phase)
+This ensures that traffic is stopped for pedestrians to cross by keeping the red light on for the duration defined by redLightDuration.
+
+
+
+
+
+
+
+
